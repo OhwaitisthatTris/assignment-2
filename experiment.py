@@ -1,8 +1,7 @@
 # experiment.py
 # Run time trials of searching algorithms
 # Starter Code from CSC 210
-# Modified by: [Your Name]
-
+# Modified by: Tristan Crawford
 from random import randint
 from search import linear_search, binary_search
 from time import perf_counter_ns
@@ -11,8 +10,13 @@ from time import perf_counter_ns
 # every integer between *min_value* and *max_value*
 # of length, *length*
 def random_int_list(length, min_value, max_value):
-    # YOUR CODE HERE
-    pass
+    result = []
+
+    for _ in range(length):
+        result.append(randint(min_value, max_value))
+
+    return result
+   
     
 # Conduct *num_trials* number of trials of linear and
 # binary search using a random list of *data_size* with
@@ -33,6 +37,35 @@ def random_int_list(length, min_value, max_value):
 # expensive_thing()
 # end_time = perf_counter_ns()
 # time_elapsed += (end_time - start_time)
+
 def time_trial(num_trials, data_size, min_value, max_value):
-    # YOUR CODE HERE
-    pass
+    data = random_int_list(data_size, min_value, max_value)
+
+    sorted_data = data.copy()
+
+    sort_start = perf_counter_ns()
+    sorted_data.sort()
+    sort_time = perf_counter_ns() - sort_start
+
+    linear_time = 0
+    binary_time = 0
+
+    binary_time += sort_time / num_trials
+
+    for _ in range(num_trials):
+        key = randint(min_value, max_value)
+
+        start_time = perf_counter_ns()
+        linear_search(data, key)
+        end_time = perf_counter_ns()
+        linear_time += (end_time - start_time)
+
+        start_time = perf_counter_ns()
+        binary_search(sorted_data, key)
+        end_time = perf_counter_ns()
+        binary_time += (end_time - start_time)
+
+    avg_linear = linear_time / num_trials
+    avg_binary = binary_time / num_trials
+
+    return (avg_linear, avg_binary)

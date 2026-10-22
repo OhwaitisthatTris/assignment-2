@@ -6,7 +6,7 @@
 # This version of linear search looks for
 # *key* in *lst* and returns a boolean (True or False)
 # depending on if it found it
-def linear_search(lst, key):
+def linear_search(lst, key): 
     for item in lst:
         if item == key:
             return True
